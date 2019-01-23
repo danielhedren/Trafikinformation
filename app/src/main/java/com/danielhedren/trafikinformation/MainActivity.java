@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
     private class FetchDataTask extends AsyncTask<Void, Void, String> {
         @Override
         protected void onPostExecute(String s) {
-            if (s != null) {
+            if (s == null) {
                 // TODO: Notify user
                 refreshView.setRefreshing(false);
                 return;
