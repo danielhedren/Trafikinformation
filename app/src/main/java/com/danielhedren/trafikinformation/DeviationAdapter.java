@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class DeviationAdapter extends RecyclerView.Adapter<DeviationAdapter.ViewHolder> {
     private ArrayList<Deviation> dataset;
@@ -25,9 +26,12 @@ public class DeviationAdapter extends RecyclerView.Adapter<DeviationAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        viewHolder.textView.setText(dataset.get(i).getMessage());
-        viewHolder.textView2.setText(dataset.get(i).getSeverityText());
-        viewHolder.textView3.setText(dataset.get(i).getRoadNumber());
+        viewHolder.messageText.setText(dataset.get(i).getMessage());
+        viewHolder.severityText.setText(dataset.get(i).getSeverityText());
+        viewHolder.roadText.setText(dataset.get(i).getRoadNumber());
+
+        MainActivity activity = (MainActivity) viewHolder.distanceText.getContext();
+        viewHolder.distanceText.setText(String.format("%.1f", activity.getLocation().distanceTo(dataset.get(i).getLocation()) / 1000) + "km");
     }
 
     @Override
@@ -36,15 +40,17 @@ public class DeviationAdapter extends RecyclerView.Adapter<DeviationAdapter.View
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView textView;
-        public TextView textView2;
-        public TextView textView3;
+        public TextView messageText;
+        public TextView severityText;
+        public TextView roadText;
+        public TextView distanceText;
 
         public ViewHolder(View v) {
             super(v);
-            textView = v.findViewById(R.id.textView);
-            textView2 = v.findViewById(R.id.textView2);
-            textView3 = v.findViewById(R.id.textView3);
+            messageText = v.findViewById(R.id.messageText);
+            severityText = v.findViewById(R.id.severityText);
+            roadText = v.findViewById(R.id.roadText);
+            distanceText = v.findViewById(R.id.distanceText);
         }
     }
 }
