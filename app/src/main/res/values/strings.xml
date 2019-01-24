@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Trafikinformation</string>
+    <string name="title_activity_deviation_map">Trafikinformation</string>
 </resources>

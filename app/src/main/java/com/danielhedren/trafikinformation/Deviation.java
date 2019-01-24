@@ -1,7 +1,6 @@
 package com.danielhedren.trafikinformation;
 
 import android.location.Location;
-import android.location.LocationManager;
 import android.util.Log;
 
 import org.json.JSONException;
@@ -15,11 +14,10 @@ public class Deviation {
         this.data = data;
         this.location = new Location("");
 
-        String[] WGS84 = new String[0];
         try {
-            WGS84 = data.getJSONObject("Geometry").getString("WGS84").split(" ");
-            this.location.setLatitude(Double.valueOf(WGS84[1].substring(1)));
-            this.location.setLongitude(Double.valueOf(WGS84[2].substring(0, WGS84[2].length() - 1)));
+            String[] WGS84 = data.getJSONObject("Geometry").getString("WGS84").split(" ");
+            this.location.setLongitude(Double.valueOf(WGS84[1].substring(1)));
+            this.location.setLatitude(Double.valueOf(WGS84[2].substring(0, WGS84[2].length() - 1)));
         } catch (JSONException e) {
             Log.d("LOCATION", e.getMessage());
         }

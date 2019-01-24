@@ -1,5 +1,6 @@
 package com.danielhedren.trafikinformation;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -26,12 +27,23 @@ public class DeviationAdapter extends RecyclerView.Adapter<DeviationAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        viewHolder.messageText.setText(dataset.get(i).getMessage());
-        viewHolder.severityText.setText(dataset.get(i).getSeverityText());
-        viewHolder.roadText.setText(dataset.get(i).getRoadNumber());
+        Deviation deviation = dataset.get(i);
+        viewHolder.messageText.setText(deviation.getMessage());
+        viewHolder.severityText.setText(deviation.getSeverityText());
+        viewHolder.roadText.setText(deviation.getRoadNumber());
 
         MainActivity activity = (MainActivity) viewHolder.distanceText.getContext();
-        viewHolder.distanceText.setText(String.format("%.1f", activity.getLocation().distanceTo(dataset.get(i).getLocation()) / 1000) + "km");
+        viewHolder.distanceText.setText(String.format("%.1f", activity.getLocation().distanceTo(deviation.getLocation()) / 1000) + "km");
+
+        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), DeviationMap.class);
+                intent.putExtra("latitude", deviation.getLocation().getLatitude());
+                intent.putExtra("longitude", deviation.getLocation().getLongitude());
+                v.getContext().startActivity(intent);
+            }
+        });
     }
 
     @Override
