@@ -29,33 +29,63 @@ public class Deviation {
     }
 
     public String getMessage() {
-        try {
-            return data.getString("Message");
-        } catch (JSONException e) {
-            e.printStackTrace();
+        if (data.has("Message")) {
+            try {
+                return data.getString("Message");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
 
         return "";
     }
 
     public String getSeverityText() {
-        try {
-            return data.getString("SeverityText");
-        } catch (JSONException e) {
-            e.printStackTrace();
+        if (data.has("SeverityText")) {
+            try {
+                return data.getString("SeverityText");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
 
         return "";
     }
 
     public String getRoadNumber() {
-        try {
-            return data.getString("RoadNumber");
-        } catch (JSONException e) {
-            e.printStackTrace();
+        if (data.has("RoadNumber")) {
+            try {
+                return data.getString("RoadNumber");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
 
         return "";
+    }
+
+    public String getMessageType() {
+        if (data.has("MessageType")) {
+            try {
+                return data.getString("MessageType");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return "";
+    }
+
+    public String getTag(String tag) {
+        if (data.has(tag)) {
+            try {
+                return data.getString(tag);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return null;
     }
 
     public Location getLocation() {

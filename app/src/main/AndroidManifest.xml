@@ -36,7 +36,8 @@
 
         <activity
             android:name=".DeviationMap"
-            android:label="@string/title_activity_deviation_map">
+            android:label="@string/title_activity_deviation_map"
+            android:parentActivityName="com.danielhedren.trafikinformation.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.danielhedren.trafikinformation.MainActivity" />

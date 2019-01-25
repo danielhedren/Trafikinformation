@@ -62,7 +62,7 @@ public class TrafikverketRequest {
                 "<LOGIN authenticationkey=\"10e4048173064997a88edcd9defb0a5a\" />" +
                 "<QUERY objecttype=\"Situation\">" +
                     "<FILTER>" +
-                        "<WITHIN name=\"Deviation.Geometry.WGS84\" shape=\"center\" value=\"" + latitude + " " + longitude + "\" radius=\"100000m\" />" +
+                        "<WITHIN name=\"Deviation.Geometry.WGS84\" shape=\"center\" value=\"" + longitude + " " + latitude + "\" radius=\"100000m\" />" +
                     "</FILTER>" +
                 "</QUERY>" +
             "</REQUEST>";

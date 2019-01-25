@@ -2,13 +2,12 @@ package com.danielhedren.trafikinformation;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
-import android.location.Location;
-import android.location.LocationManager;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -21,23 +20,33 @@ public class DeviationMap extends AppCompatActivity implements OnMapReadyCallbac
 
     private GoogleMap map;
     private LatLng target;
+    private TextView detailsText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_deviation_map);
 
+        // Initialize toolbar
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        detailsText = findViewById(R.id.detailsText);
+
         Bundle extras = getIntent().getExtras();
-        Log.d("LatLng", String.valueOf((extras.getDouble("latitude"))));
-        Log.d("LatLng", String.valueOf((extras.getDouble("longitude"))));
         target = new LatLng(extras.getDouble("latitude"), extras.getDouble("longitude"));
+        getSupportActionBar().setTitle(extras.getString("messageType"));
 
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
+        detailsText.setText(extras.getString("message") + extras.get("locationDescriptor") + ". " + extras.get("severityText") + ".");
+
+        if (map == null) {
+            // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+            SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                    .findFragmentById(R.id.map);
+            mapFragment.getMapAsync(this);
+        }
     }
-
 
     /**
      * Manipulates the map once available.
@@ -52,7 +61,7 @@ public class DeviationMap extends AppCompatActivity implements OnMapReadyCallbac
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
 
-        map.animateCamera(CameraUpdateFactory.newLatLngZoom(target, 13));
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(target, 13));
 
         map.addMarker(new MarkerOptions().position(target));
 

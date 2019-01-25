@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Trafikinformation</string>
     <string name="title_activity_deviation_map">Trafikinformation</string>
+    <string name="action_settings">Inställningar</string>
 </resources>

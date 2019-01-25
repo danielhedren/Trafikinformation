@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Locale;
 
 public class DeviationAdapter extends RecyclerView.Adapter<DeviationAdapter.ViewHolder> {
     private ArrayList<Deviation> dataset;
@@ -27,22 +28,23 @@ public class DeviationAdapter extends RecyclerView.Adapter<DeviationAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        Deviation deviation = dataset.get(i);
+        final Deviation deviation = dataset.get(i);
         viewHolder.messageText.setText(deviation.getMessage());
         viewHolder.severityText.setText(deviation.getSeverityText());
         viewHolder.roadText.setText(deviation.getRoadNumber());
 
         MainActivity activity = (MainActivity) viewHolder.distanceText.getContext();
-        viewHolder.distanceText.setText(String.format("%.1f", activity.getLocation().distanceTo(deviation.getLocation()) / 1000) + "km");
+        viewHolder.distanceText.setText(String.format("%skm", String.format(Locale.getDefault(), "%.1f", activity.getLocation().distanceTo(deviation.getLocation()) / 1000)));
 
-        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), DeviationMap.class);
-                intent.putExtra("latitude", deviation.getLocation().getLatitude());
-                intent.putExtra("longitude", deviation.getLocation().getLongitude());
-                v.getContext().startActivity(intent);
-            }
+        viewHolder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(v.getContext(), DeviationMap.class);
+            intent.putExtra("latitude", deviation.getLocation().getLatitude());
+            intent.putExtra("longitude", deviation.getLocation().getLongitude());
+            intent.putExtra("messageType", deviation.getMessageType());
+            intent.putExtra("message", deviation.getTag("Message"));
+            intent.putExtra("locationDescriptor", deviation.getTag("LocationDescriptor"));
+            intent.putExtra("severityText", deviation.getTag("SeverityText"));
+            v.getContext().startActivity(intent);
         });
     }
 
