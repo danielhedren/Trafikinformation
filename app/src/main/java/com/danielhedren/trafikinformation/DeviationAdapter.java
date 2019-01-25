@@ -44,6 +44,7 @@ public class DeviationAdapter extends RecyclerView.Adapter<DeviationAdapter.View
             intent.putExtra("message", deviation.getTag("Message"));
             intent.putExtra("locationDescriptor", deviation.getTag("LocationDescriptor"));
             intent.putExtra("severityText", deviation.getTag("SeverityText"));
+            intent.putExtra("roadNumber", deviation.getTag("RoadNumber"));
             v.getContext().startActivity(intent);
         });
     }

@@ -14,6 +14,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class DeviationMap extends AppCompatActivity implements OnMapReadyCallback {
@@ -36,7 +37,10 @@ public class DeviationMap extends AppCompatActivity implements OnMapReadyCallbac
 
         Bundle extras = getIntent().getExtras();
         target = new LatLng(extras.getDouble("latitude"), extras.getDouble("longitude"));
-        getSupportActionBar().setTitle(extras.getString("messageType"));
+
+        String title = extras.getString("messageType");
+        if (extras.getString("roadNumber") != null) title += " - " + extras.getString("roadNumber");
+        getSupportActionBar().setTitle(title);
 
         detailsText.setText(extras.getString("message") + extras.get("locationDescriptor") + ". " + extras.get("severityText") + ".");
 

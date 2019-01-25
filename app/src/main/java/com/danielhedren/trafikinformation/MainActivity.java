@@ -20,18 +20,24 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Timer;
 
 public class MainActivity extends AppCompatActivity implements LocationListener {
 
     private SwipeRefreshLayout refreshView;
     private RecyclerView recyclerView;
     private ArrayList<Deviation> dataset = new ArrayList<>();
+
+    private String response;
+    private Date responseTime;
 
     public Location getLocation() {
         return location;
@@ -77,7 +83,10 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
         // Attach refresh listener
         refreshView = findViewById(R.id.refreshView);
-        refreshView.setOnRefreshListener(() -> new FetchDataTask().execute());
+        refreshView.setOnRefreshListener(() -> {
+            responseTime = null;
+            new FetchDataTask().execute();
+        });
 
         new FetchDataTask().execute();
     }
@@ -90,7 +99,12 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Toast toast = Toast.makeText(this, "Unimplemented", Toast.LENGTH_SHORT);
+        toast.show();
+
         if (item.getItemId() == R.id.action_settings) {
+
+        } else if (item.getItemId() == R.id.action_filter) {
 
         }
         return true;
@@ -160,10 +174,16 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         protected String doInBackground(Void... voids) {
             runOnUiThread(() -> refreshView.setRefreshing(true));
 
+            if (responseTime != null && ((new Date()).getTime() - responseTime.getTime()) < 30 * 60 * 1000) {
+                return response;
+            }
+
             if (location != null) {
                 TrafikverketRequest request = new TrafikverketRequest(location.getLatitude(), location.getLongitude());
                 Log.d("request", request.fetchResponse());
-                return request.fetchResponse();
+                response = request.fetchResponse();
+                responseTime = new Date();
+                return response;
             }
 
             return null;
