@@ -2,6 +2,7 @@ package com.danielhedren.trafikinformation;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -9,18 +10,17 @@ import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.view.menu.MenuBuilder;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.menu.MenuBuilder;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,7 +28,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Timer;
 
 public class MainActivity extends AppCompatActivity implements LocationListener {
 
@@ -99,13 +98,16 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Toast toast = Toast.makeText(this, "Unimplemented", Toast.LENGTH_SHORT);
-        toast.show();
+        ArrayList<DeviationData> deviationData = new ArrayList<>();
+        for (Deviation d : dataset) {
+            deviationData.add(new DeviationData(d));
+        }
 
-        if (item.getItemId() == R.id.action_settings) {
-
-        } else if (item.getItemId() == R.id.action_filter) {
-
+        if (item.getItemId() == R.id.action_map) {
+            Intent intent = new Intent(this, DeviationMap.class);
+            intent.putExtra("deviations", deviationData);
+            intent.putExtra("location", location);
+            startActivity(intent);
         }
         return true;
     }

@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Trafikinformation</string>
     <string name="title_activity_deviation_map">Trafikinformation</string>
-    <string name="action_settings">Inställningar</string>
-    <string name="action_filter">Sök</string>
+    <string name="action_filter">Visa på karta</string>
 </resources>

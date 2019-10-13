@@ -6,7 +6,9 @@ import android.util.Log;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class Deviation {
+import java.io.Serializable;
+
+public class Deviation implements Serializable {
     private JSONObject data;
     private Location location;
 
