@@ -15,12 +15,13 @@ import java.net.URL;
 
 public class TrafikverketRequest {
     private double latitude, longitude;
-    private String objectType;
+    private String objectType, key;
 
-    public TrafikverketRequest(double latitude, double longitude) {
+    public TrafikverketRequest(double latitude, double longitude, String key) {
         this.latitude = latitude;
         this.longitude = longitude;
         this.objectType = "Situation";
+        this.key = key;
     }
 
     public HttpURLConnection openConnection() {
@@ -59,7 +60,7 @@ public class TrafikverketRequest {
     public String getRequestString() {
         String request =
             "<REQUEST>" +
-                "<LOGIN authenticationkey=\"10e4048173064997a88edcd9defb0a5a\" />" +
+                "<LOGIN authenticationkey=\"" + key + "\" />" +
                 "<QUERY objecttype=\"Situation\">" +
                     "<FILTER>" +
                         "<WITHIN name=\"Deviation.Geometry.WGS84\" shape=\"center\" value=\"" + longitude + " " + latitude + "\" radius=\"100000m\" />" +

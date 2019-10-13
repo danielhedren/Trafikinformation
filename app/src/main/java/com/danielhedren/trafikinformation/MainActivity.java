@@ -179,7 +179,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             }
 
             if (location != null) {
-                TrafikverketRequest request = new TrafikverketRequest(location.getLatitude(), location.getLongitude());
+                TrafikverketRequest request = new TrafikverketRequest(location.getLatitude(), location.getLongitude(), getString(R.string.trafikverket_key));
                 Log.d("request", request.fetchResponse());
                 response = request.fetchResponse();
                 responseTime = new Date();
